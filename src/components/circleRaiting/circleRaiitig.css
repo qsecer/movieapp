@@ -1,0 +1,25 @@
+.circleRaiitig{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    border-radius: 50%;
+
+    border: 2px solid;
+    font-size: 14px;
+}
+.O3{
+    border-color: #E90000;
+}
+.t5{
+    border-color: #E97E00;
+}
+.f7{
+    border-color: #E9D100;
+}
+.h7{
+    border-color: #66E900;
+}

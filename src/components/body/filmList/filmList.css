@@ -1,0 +1,10 @@
+.filmList{
+    display: flex;
+    flex-direction: row;
+    max-width: 1010px;
+    flex-wrap: wrap;
+}
+#root{
+    display: flex;
+    justify-content: center;
+}

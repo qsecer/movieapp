@@ -5,6 +5,8 @@ import Pag from "../footer/Pagination.jsx";
 import './app.css'
 import Spinner from "../spin/Spin.jsx";
 import NoConnetion from "../Alert/Alert.jsx";
+import MyTabs from "../tabs/Tabs.jsx";
+
 function App() {
 
   const myKey = '7812d20e5e0384301cc6da5809c89aa2';
@@ -16,6 +18,21 @@ function App() {
   const [value, setValue] = useState('');
   const [genreList , setGenreList] = useState([]);
   const urlForGenre = `https://api.themoviedb.org/3/genre/movie/list?api_key=${myKey}&language=en-US`;
+  const urlForSession = `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${myKey}`;
+
+    useEffect(() => {
+        const createSession = async () => {
+            try{
+                const session = await fetch(urlForSession);
+                const resSession = await session.json();
+                console.log(resSession);
+
+            }catch (e){
+                console.log(`fail to create new session ${e}`)
+            }
+        }
+        createSession();
+    }, []);
     useEffect(() => {
         const fetchGenre = async () => {
             try{
@@ -25,7 +42,7 @@ function App() {
                 }
                 const res = await genreData.json();
                 await setGenreList(res.genres);
-                console.log(genreList);
+
             }catch(e){
                 console.log(e)
             }
@@ -35,11 +52,15 @@ function App() {
 
     useEffect(() => {
         const getGenreNames = (genreIds) => {
-            return genreIds.map(id => {
-                const match = genreList.find(g => g.id === id);
-                return match ? match.name : '';
-            }).filter(Boolean);
+            return genreIds
+                .map(id => {
+                    const match = genreList.find(g => g.id === id);
+                    return match ? match.name : '';
+                })
+                .filter(Boolean)
+                .join(' ')
         };
+
 
         const fetchFilm = async () => {
             try {
@@ -81,15 +102,16 @@ function App() {
     if (error) return <NoConnetion/>;
   return (
       <div className='app'>
-        <SearchForm
-            inputValue={value}
-            setInputValue={setValue}
-            setFilms={setFilms}
-            myKey={myKey}
-        />
-        <FilmList films={films}/>
-        <Pag numberOfPage={numberOfPage}
-             setNumberOfPage={setNumberOfPage}
+            <MyTabs/>
+            <SearchForm
+                inputValue={value}
+                setInputValue={setValue}
+                setFilms={setFilms}
+                myKey={myKey}
+            />
+            <FilmList films={films}/>
+            <Pag numberOfPage={numberOfPage}
+                 setNumberOfPage={setNumberOfPage}
         />
       </div>
   )

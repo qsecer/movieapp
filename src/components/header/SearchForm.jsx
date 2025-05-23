@@ -1,7 +1,19 @@
 import './searchForm.css';
-import { useEffect, useRef } from "react";
+import {useEffect, useRef, useState} from "react";
+import Spinner from "../spin/Spin.jsx";
 
-function  Input ({ inputValue, setInputValue, myKey, setFilms}) {
+function  Input ({ inputValue, setInputValue, myKey, setFilms, genreList }) {
+    console.log(genreList)
+    const getGenreNames = (genreIds) => {
+        return genreIds
+            .map(id => {
+                const match = genreList.find(g => g.id === id);
+                return match ? match.name : '';
+            })
+            .filter(Boolean)
+
+    };
+
     const debounce = (fn, debounceTime) => {
         let timer;
         return function (...args) {
@@ -13,7 +25,9 @@ function  Input ({ inputValue, setInputValue, myKey, setFilms}) {
     };
 
     const debouncedSearchFilm = useRef(
+
         debounce(async (query) => {
+
             try {
                 const resultOfSearch = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${myKey}&query=${query}`);
                 if (!resultOfSearch.ok) {
@@ -26,6 +40,7 @@ function  Input ({ inputValue, setInputValue, myKey, setFilms}) {
                     image: film.poster_path,
                     date: film.release_date,
                     overview: film.overview,
+                    genre: getGenreNames(film.genre_ids),
                     raiting: film.vote_average,
                     id: film.id,
                     key: film.id
@@ -44,11 +59,12 @@ function  Input ({ inputValue, setInputValue, myKey, setFilms}) {
             debouncedSearchFilm.current(inputValue);
         }
     }, [inputValue])
-
     return (
-        <input
-            onChange={(event)=>{setInputValue(event.target.value)}}
-        />
+
+            <input
+                placeholder='Type to search...'
+                onChange={(event)=>{setInputValue(event.target.value)}}
+            />
     )
 
 }

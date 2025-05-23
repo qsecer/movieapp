@@ -6,21 +6,26 @@ import CardFilm from "../cardFilm/CardFilm.jsx";
 
 
 function FilmList(
-    { films }
+    {films, rateFilm}
 ) {
 
     return (
 
         <ul className='filmList'>
             {films.map(film => (
-                <li key={film.id}>
+                <li key={film.id} className='li-filmCard'>
                     <CardFilm
+
                     title={film.title}
                     date={film.date}
                     image={film.image}
                     genre={film.genre}
                     overview={film.overview}
-                    raiting={film.raiting}
+                    voteAverage={film.voteAverage}
+                    rateFilm={rateFilm}
+                    id={film.id}
+                    rating={film.rate}
+
                     />
                 </li>
 

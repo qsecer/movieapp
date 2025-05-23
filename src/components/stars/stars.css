@@ -1,7 +1,9 @@
 .ant-rate{
     width: 239px;
     display: flex;
+    padding-bottom: 15px;
 }
 .ant-rate-star{
+    padding: 0px !important;
     margin-right: 5px !important;
 }

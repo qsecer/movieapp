@@ -1,9 +1,6 @@
 import React from 'react';
 import { Tabs } from 'antd';
 
-
-
-
 const items = [
     {
         key: '1',
